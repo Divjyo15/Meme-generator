@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React,{useState}from 'react';
+import Nav from './Nav';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Homepage from './pages/Homepage';
+import EditPage from './pages/Edit';
 function App() {
+  const [error, setError] = useState(null);
+
+  // Function to handle errors
+  const handleError = (error) => {
+    console.error('An error occurred:', error);
+    setError(error);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Nav />
+      <Router>
+        {error ? (
+          <div>An error occurred. Please try again later.</div>
+        ) : (
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/edit" element={<EditPage />} />
+          </Routes>
+        )}
+      </Router>
     </div>
   );
 }
 
 export default App;
+
